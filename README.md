@@ -17,7 +17,7 @@ The goal is to simplify maintaining Bazel targets for repositories that organize
 Run Gazelle to update `BUILD.bazel` files:
 
 ```bash
-ORION_EXTENSIONS_DIR=$PWD/.aspect/gazelle bazel run //:gazelle
+bazel run //:gazelle
 ```
 
 ## References

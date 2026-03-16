@@ -2,5 +2,8 @@ load("@gazelle//:def.bzl", "gazelle")
 
 gazelle(
     name = "gazelle",
+    env = {
+        "ORION_EXTENSIONS_DIR": ".aspect/gazelle",
+    },
     gazelle = "@multitool//tools/gazelle",
 )
