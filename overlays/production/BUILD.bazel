@@ -1,0 +1,15 @@
+load("@rules_kustomize//kustomize:kustomize.bzl", "kustomization", "kustomized_resources")
+
+kustomization(
+    name = "kustomization",
+    srcs = ["deployment.yaml"],
+    visibility = ["//visibility:public"],
+    deps = ["//base:kustomization"],
+)
+
+kustomized_resources(
+    name = "production",
+    kustomization = ":kustomization",
+    load_restrictor = "None",
+    visibility = ["//visibility:public"],
+)

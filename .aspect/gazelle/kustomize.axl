@@ -1,0 +1,53 @@
+# Register the Bazel rule kind we will emit
+aspect.gazelle_rule_kind("kustomization", {
+    "From": "@rules_kustomize//kustomize:kustomize.bzl",
+    "MergeableAttrs": ["srcs"],
+    "ResolveAttrs": ["deps"],
+})
+
+aspect.gazelle_rule_kind("kustomized_resources", {
+    "From": "@rules_kustomize//kustomize:kustomize.bzl",
+    "NonEmptyAttrs": ["kustomization"],
+})
+
+def declare_targets(ctx):
+    if not ctx.sources:
+        return
+
+    for file in ctx.sources:
+        resources = file.query_results["resources"]
+        if not resources:
+            continue
+
+        ctx.targets.add(
+            name = "kustomization",
+            kind = "kustomization",
+            attrs = {
+                "srcs": [f for f in file.query_results["resources"] if f.endswith(".yaml") or f.endswith(".yml")],
+                "deps": ["//{}:kustomization".format(path.join(ctx.rel, d)) for d in resources if d.startswith("..")],
+                "visibility": ["//visibility:public"],
+            }
+        )
+
+        ctx.targets.add(
+            name = ctx.rel.split("/")[-1],
+            kind = "kustomized_resources",
+            attrs = {
+                "kustomization": ":kustomization",
+                "load_restrictor": "None",
+                "visibility": ["//visibility:public"],
+            }
+        )
+
+
+
+aspect.orion_extension(
+    id = "rules_kustomize",
+    prepare = lambda cfg: aspect.PrepareResult(
+        sources = [aspect.SourceFiles("kustomization.yaml")],
+        queries = {
+            "resources": aspect.YamlQuery(query = ".resources + [.patches[].path] | .[]")
+        },
+    ),
+    declare = declare_targets,
+)
