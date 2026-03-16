@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/bazel-contrib/rules_multitool/main/lockfile.schema.json",
+  "gazelle": {
+    "binaries": [
+      {
+        "kind": "file",
+        "url": "https://github.com/aspect-build/aspect-gazelle/releases/download/2025.40.213+704a9b69/gazelle-darwin_arm64_cgo",
+        "sha256": "9e985767d7f807da473ff020bcfe672c3f7ca35d9ae60ef40a8f93d641b37270",
+        "os": "macos",
+        "cpu": "arm64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/aspect-build/aspect-gazelle/releases/download/2025.40.213+704a9b69/gazelle-linux_amd64_cgo",
+        "sha256": "d7d18fa2459c29c91cfc339f137365a77cb37a2d110d4e7520a17802a373f4f6",
+        "os": "linux",
+        "cpu": "x86_64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/aspect-build/aspect-gazelle/releases/download/2025.40.213+704a9b69/gazelle-linux_arm64_cgo",
+        "sha256": "4236a1da094984da2ed2da969ded06feeb101ff1e94b477c5a6b6a8926c04b72",
+        "os": "linux",
+        "cpu": "arm64"
+      }
+    ]
+  }
+}
